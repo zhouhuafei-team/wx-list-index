@@ -27,12 +27,16 @@ Component({
                 suctionTop: true // 是否开启标题吸顶
             }
         },
+        isShowMyCity: {
+            type: Boolean,
+            value: true
+        },
         /**
          * 是否定位我的位置
          */
         myCity: {
-            type: Boolean,
-            value: false,
+            type: String,
+            value: ''
         },
         // 用于外部组件搜索使用
         search: {
@@ -73,15 +77,17 @@ Component({
          */
         resetRight(data) {
             let rightArr = []
-            if (this.data.myCity) {
-                this.data.data.unshift({
-                    title: '我的定位',
-                    type: 'me',
-                    item: [{
-                        name: '点击获取我的位置',
-                        key: '我的定位'
-                    }]
-                })
+            if (this.data.myCity && this.data.isShowMyCity) {
+                if (this.data.data.findIndex(v => v.type === 'me') === -1) {
+                    this.data.data.unshift({
+                        title: '我的定位',
+                        type: 'me',
+                        item: [{
+                            name: this.data.myCity,
+                            key: '我的定位'
+                        }]
+                    })
+                }
             }
             for (let i in data) {
                 rightArr.push(data[i].title.substr(0, 1));
@@ -212,7 +218,7 @@ Component({
          * 获取节点信息
          */
         queryMultipleNodes() {
-          let self = this 
+            let self = this
             const query = wx.createSelectorQuery().in(this);
             query.selectAll('.fixed-title-hock').boundingClientRect((res) => {
                 res.forEach(function(rect) {
