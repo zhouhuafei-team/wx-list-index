@@ -16,5 +16,5 @@
 
 <!-- 外部搜索 -->
 <view class='wrapper'>
-    <list-html data="{{city}}" binddetail="bindtap" my-city config="{{config}}"></list-html>
+    <list-html data="{{city}}" binddetail="bindtap" my-city="上海" config="{{config}}"></list-html>
 </view>
